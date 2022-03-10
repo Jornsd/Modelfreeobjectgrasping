@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5env">
+
+  <link name="world"/>
+  <link name="workbench">
+
+<!-- Creating workbench -->
+    <inertial>
+      <origin xyz="0 0 0.5" rpy="0 0 0"/>
+      <mass value="20"/>
+      <inertia ixx="200" ixy="200" ixz="200" iyy="200" iyz="200" izz="200"/>
+    </inertial>
+    <visual>
+      <origin xyz="0.5 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="2 1 1"/>
+      </geometry>
+      <material name="Gray">
+        <color rgba="0.5 0.5 0.5 0" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.5 0 0.5" rpy="0 0 0"/>
+      <geometry>
+        <box size="2 1 1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <gazebo reference="workbench">
+    <mu1>0.2</mu1>
+    <mu2>0.2</mu2>
+    <material>Gazebo/Orange</material>
+  </gazebo>
+  <joint name="world_joint" type="fixed">
+    <parent link="world" />
+    <child link="workbench" />
+    <origin xyz="0 0 0" rpy="0.0 0.0 0.0"/>
+  </joint>
+
+  <xacro:arg name="transmission_hw_interface" default="hardware_interface/PositionJointInterface"/>
+  <!-- Gazebo description -->
+  <xacro:include filename="$(find ur_description)/urdf/common.gazebo.xacro" />
+  <!-- UR5 -->
+  <xacro:include filename="$(find ur_description)/urdf/ur5.urdf.xacro" />
+
+  <xacro:ur5_robot prefix="" joint_limited="true" transmission_hw_interface="$(arg transmission_hw_interface)" />
+
+  <!-- Camera -->
+  <xacro:include filename="$(find realsense2_description)/urdf/_d435.urdf.xacro"/>
+  <sensor_d435 parent="tool0">
+    <origin xyz="0 -0.07 0.01" rpy="0 -1.55 -1.55"/>
+  </sensor_d435>
+
+  <joint name="base_joint" type="fixed">
+    <parent link="workbench" />
+    <child link="base_link" />
+    <origin xyz="0 0 1" rpy="0.0 0.0 0.0"/>
+  </joint>
+</robot>
