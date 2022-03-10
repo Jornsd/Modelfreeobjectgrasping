@@ -1,0 +1,16 @@
+<launch>
+  <node pkg="nodelet" type="nodelet" name="voxel_assembled_cloud" args="manager" output="screen" />
+
+  <!-- Run a VoxelGrid filter to clean NaNs and downsample the data -->
+  <node pkg="nodelet" type="nodelet" name="assebled_voxelgrid_applied_pointcloud" args="load pcl/VoxelGrid pcl_manager" output="screen">
+    <remap from="~input" to="/assembled_pc_scan"/>
+    <remap from="~output" to="/voxel_assembled_cloud" />
+    <rosparam>
+      filter_field_name: x <!-- Axis/direction of filtering-->
+      filter_limit_min: 0.09 <!-- Filter out points from robot base -->
+      filter_limit_max: 1.5 <!-- End of workbench -->
+      filter_limit_negative: False
+      leaf_size: 0.004 <!-- Grid size in meters-->
+    </rosparam>
+  </node>
+</launch>
