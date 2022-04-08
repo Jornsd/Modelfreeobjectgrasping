@@ -1,3 +1,0 @@
-/home/jorn/PointCloudNormals/PointCloudNormal/build/CMakeFiles/rebuild_cache.dir
-/home/jorn/PointCloudNormals/PointCloudNormal/build/CMakeFiles/NORMALS.dir
-/home/jorn/PointCloudNormals/PointCloudNormal/build/CMakeFiles/edit_cache.dir
