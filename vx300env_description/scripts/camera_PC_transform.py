@@ -15,7 +15,7 @@ class Tf_camera_PC():
     def __init__(self):
 
         self.pc_pub = rospy.Publisher('/camera_PC_transposed', PointCloud2, queue_size=1)
-        self.pc_sub = rospy.Subscriber('/camera/depth/color/points', PointCloud2, self.pc_callback, queue_size=1)
+        self.pc_sub = rospy.Subscriber('/pc_filter/pointcloud/objects', PointCloud2, self.pc_callback, queue_size=1)
 
     def pc_callback(self,pc_data):
         assert isinstance(pc_data, PointCloud2)
@@ -23,9 +23,9 @@ class Tf_camera_PC():
         
         pc = list([x for x in pc2.read_points(pc_data, skip_nans=True, field_names=["x", "y", "z"])]) #Get points from gathered topic
 
-        listener.waitForTransform("vx300/base_link", "/camera_depth_optical_frame", rospy.Time(), rospy.Duration(4.0))
+        listener.waitForTransform("vx300/base_link", "/camera_color_optical_frame", rospy.Time(), rospy.Duration(4.0))
 
-        (trans, quat) = listener.lookupTransform("vx300/base_link", "/camera_depth_optical_frame", rospy.Time(0)) #Get transformation from camera frame to base frame
+        (trans, quat) = listener.lookupTransform("vx300/base_link", "/camera_color_optical_frame", rospy.Time(0)) #Get transformation from camera frame to base frame
 
         Tra = transformations.translation_matrix(trans)
         Rot = transformations.quaternion_matrix(quat)
