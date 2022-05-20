@@ -1,0 +1,9 @@
+- child_frame_id: camera_link
+  frame_id: vx300/ee_gripper_link
+  qw: 1.0
+  qx: 0.0
+  qy: 0.0
+  qz: 0.0
+  x: -0.120097
+  y: 0.01754242
+  z: 0.0789111

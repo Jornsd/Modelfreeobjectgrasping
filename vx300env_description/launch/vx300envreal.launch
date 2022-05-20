@@ -1,6 +1,6 @@
 <launch>
 
-  <arg name="robot_model"                       default="vx300"/>
+  <arg name="robot_model"                       default="vx300"/>   <!--The robot model being used-->
   <arg name="robot_name"                        default="$(arg robot_model)"/>
   <arg name="base_link_frame"                   default="base_link"/>
   <arg name="show_gripper_bar"                  default="true"/>
@@ -20,13 +20,13 @@
 
   <arg name="filter_ns"                         default="pc_filter"/>
   <arg name="filter_params"                     default="$(find interbotix_xsarm_perception)/config/filter_params.yaml"/>
-  <arg name="use_pointcloud_tuner_gui"          default="true"/>
+  <arg name="use_pointcloud_tuner_gui"          default="true"/>  <!-- Launch filter_params.yaml, error pc_filter/pointcloud_tuner_gui-7 can be ignored -->
   <arg name="enable_pipeline"                   default="$(arg use_pointcloud_tuner_gui)"/>
-  <arg name="cloud_topic"                       default="/camera/depth/color/points"/>
+  <arg name="cloud_topic"                       default="/camera/depth/color/points"/> <!--Pointcloud tuner gui's camera topic-->
 
   <arg name="tag_family"                        default="tagStandard41h12"/>
   <arg name="standalone_tags"                   default="$(find interbotix_perception_modules)/config/tags.yaml"/>
-  <arg name="camera_frame"                      default="camera_color_optical_frame"/>
+  <arg name="camera_frame"                      default="/camera_depth_optical_frame"/>
   <arg name="apriltag_ns"                       default="apriltag"/>
   <arg name="camera_color_topic"                default="camera/color/image_raw"/>
   <arg name="camera_info_topic"                 default="camera/color/camera_info"/>
@@ -37,7 +37,7 @@
   <arg name="use_armtag_tuner_gui"              default="false"/>
   <arg name="position_only"                     default="true"/>
 
-  <arg name="load_transforms"                   default="true"/>
+  <arg name="load_transforms"                   default="true"/>  <!--Launch static_transform-yaml-->
   <arg name="transform_filepath"                default="$(find interbotix_xsarm_perception)/config/static_transforms.yaml"/>
 
   <arg name="rviz_frame"                        default="$(arg robot_name)/$(arg base_link_frame)"/>
@@ -107,12 +107,14 @@
   <node type="point_cloud2_assembler" pkg="laser_assembler" name="my_assembler">
     <remap from="cloud" to="/voxel_grid/output"/>
     <param name="max_scans" type="int" value="400" />
-    <param name="fixed_frame" type="string" value="vx300/base_link" />
+    <param name="fixed_frame" type="string" value="world" />
   </node>
 
   <!-- Start voxel grid filters -->
   <include file="$(find vx300env_description)/launch/voxelgrid.launch"/>
   <include file="$(find vx300env_description)/launch/assembled_voxelgrid_filtering.launch"/>
+
+
 
 
 </launch>

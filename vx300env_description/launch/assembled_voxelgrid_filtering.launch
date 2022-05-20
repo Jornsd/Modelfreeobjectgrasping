@@ -7,10 +7,10 @@
     <remap from="~output" to="/voxel_assembled_cloud" />
     <rosparam>
       filter_field_name: x <!-- Axis/direction of filtering-->
-      filter_limit_min: 0.20 <!-- Filter out points from robot base -->
-      filter_limit_max: 0.45 <!-- End of workbench -->
+      filter_limit_min: 0.15 <!-- Filter out points from robot base -->
+      filter_limit_max: 0.50 <!-- End of workbench -->
       filter_limit_negative: False
-      leaf_size: 0.004 <!-- Grid size in meters-->
+      leaf_size: 0.008 <!-- Grid size in meters-->
     </rosparam>
   </node>
 </launch>
